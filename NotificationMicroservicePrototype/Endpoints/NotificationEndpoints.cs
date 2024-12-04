@@ -1,6 +1,7 @@
 namespace NotificationMicroservicePrototype.Endpoints;
 
 using Contracts;
+using Contracts.Notification.HttpRequests;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Models;
 using Services.Abstract;
@@ -16,10 +17,15 @@ public static class NotificationsEndpoints
         return endpoints;
     }
 
-    private static async Task<Ok> PostAsync(SendNotificationRequest request, INotificationService notificationService)
+    private static async Task<Ok> PostAsync(SendNotificationRequest request, INotificationService notificationService, INotificationGenerator notificationGenerator)
     {
-        Notification notification = Notification.Create(request.Message);
-        await notificationService.SendNotificationToAllAsync(notification);
+        Notification notification = notificationGenerator.GenerateNotification(request.Type, request.Data);
+        
+        // TODO: Should be logic here
+        if (request.To.Browser != null)
+        {
+            await notificationService.SendNotificationToAllAsync(notification);
+        }
         
         return TypedResults.Ok();
     }

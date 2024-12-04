@@ -2,7 +2,7 @@ namespace NotificationMicroservicePrototype.Models;
 
 public class Notification
 {
-    public static Notification Create(string message) => new Notification()
+    public static Notification CreateByMessage(string message) => new Notification()
     {
         Message = message,
         Date = DateTime.UtcNow

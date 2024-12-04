@@ -8,6 +8,7 @@ IServiceCollection services = builder.Services;
 IConfiguration configuration = builder.Configuration;
 
 services.AddScoped<INotificationService, NotificationService>();
+services.AddScoped<INotificationGenerator, NotificationGenerator>();
 
 services.AddOpenApi();
 
